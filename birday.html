@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Birthday Surprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fce3ec, #f6e6ff, #e7f8f2);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+      overflow: hidden;
+      touch-action: none;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .page {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      position: relative;
+    }
+    .active { display: flex; }
+    button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      color: white;
+      font-size: 5vw;
+      max-font-size: 22px;
+      font-family: 'Dancing Script', cursive;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.3s, background 0.3s;
+      margin: 10px;
+    }
+    button:hover, button:active {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #a6c1ee, #fbc2eb);
+    }
+    .photo-section {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .photo-frame {
+      position: absolute;
+      width: 35vw;
+      max-width: 140px;
+      height: 45vw;
+      max-height: 180px;
+      background: #fffdf9;
+      border: 2px solid #e1d6d1;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      cursor: grab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: transform 0.3s;
+      touch-action: none;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.95) contrast(1.05);
+    }
+    video {
+      width: 90%;
+      max-width: 600px;
+      max-height: 70vh;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .message {
+      font-size: 7vw;
+      color: #c97baa;
+      margin-bottom: 20px;
+      font-family: 'Dancing Script', cursive;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.15);
+      background: rgba(255,255,255,0.7);
+      padding: 15px 25px;
+      border-radius: 12px;
+    }
+    .sparkle, .doodle {
+      position: absolute;
+      opacity: 0.8;
+      font-size: 1.5rem;
+    }
+    .sparkle { animation: twinkle 4s infinite ease-in-out; }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.2; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .doodle { animation: float 8s infinite ease-in-out; font-size: 2.2rem; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @media (max-width: 600px) {
+      h1, h2 { font-size: 8vw !important; }
+      .message { font-size: 8vw; }
+      button { font-size: 6vw; padding: 12px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="page1" class="page active">
+    <h1 style="font-size:9vw; color:#c97baa; font-family:'Dancing Script', cursive; text-shadow:1px 1px 6px rgba(0,0,0,0.25);">Press Enter ✨</h1>
+    <button onclick="showPage(2)">Enter</button>
+    <div class="doodle" style="top:12%; left:15%;">🌸</div>
+    <div class="doodle" style="top:20%; right:12%;">✨</div>
+  </div>
+
+  <div id="page2" class="page">
+    <h2 style="font-size:7vw; color:#a16ea9; font-family:'Dancing Script', cursive;">Tum Khushi Didi ho na? 💕</h2>
+    <div>
+      <button onclick="nextPage(3)">Yes </button>
+      <button onclick="alert('Galat Didi! ')">No 🙅‍♀️</button>
+    </div>
+  </div>
+
+  <div id="page3" class="page">
+    <div class="photo-section" id="photoSection"></div>
+  </div>
+
+  <div id="page4" class="page">
+    <video id="video4" autoplay playsinline></video>
+  </div>
+
+  <div id="page5" class="page">
+    <div class="message">Didi, ek aur surprise! 🎀</div>
+    <button onclick="nextPage(6)">Tap 💫</button>
+  </div>
+
+  <div id="page6" class="page">
+    <video id="video6" autoplay playsinline></video>
+  </div>
+
+  <div id="page7" class="page">
+    <h1 style="font-size:9vw;color:#c97baa; font-family:'Dancing Script', cursive; text-shadow:1px 1px 8px rgba(0,0,0,0.3);">Happy Birthday Didi 🎂✨</h1>
+    <div class="doodle" style="top:25%; left:15%;">🌸</div>
+    <div class="doodle" style="top:35%; right:20%;">✨</div>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let currentPage = 1;
+
+    function showPage(n) {
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page'+n).classList.add('active');
+      currentPage = n;
+    }
+
+    function nextPage(n) {
+      showPage(n);
+
+      if(n === 4){
+        const v1 = document.getElementById('video4');
+        v1.src = "Video-119.mp4";   // apna video file yaha
+        v1.muted = false;           // sound on
+        v1.play().catch(e=>console.log("Autoplay blocked:", e));
+        v1.onended = ()=>nextPage(5);
+      }
+
+      if(n === 6){
+        const v2 = document.getElementById('video6');
+        v2.src = "Video-119.mp4";   // apna video file yaha
+        v2.muted = false;           // sound on
+        v2.play().catch(e=>console.log("Autoplay blocked:", e));
+        v2.onended = ()=>nextPage(7);
+      }
+    }
+
+    document.addEventListener('keydown',(e)=>{
+      if(currentPage===1 && e.key==='Enter'){
+        showPage(2);
+      }
+    });
+
+    // Photos with drag + 2s remove system
+    const photoSection = document.getElementById('photoSection');
+    const imageUrls = [
+      'Screenshot 2025-09-05 223652.png','Screenshot 2025-09-05 223831.png','Screenshot 2025-09-05 223847.png','Screenshot 2025-09-05 223903.png','Screenshot 2025-09-05 223916.png',
+      'Screenshot 2025-09-05 223931.png','Screenshot 2025-09-05 223944.png','Screenshot 2025-09-05 223958.png','Screenshot 2025-09-05 224018.png','Screenshot 2025-09-05 224033.png'
+    ];
+
+    imageUrls.forEach((url,i)=>{
+      const frame = document.createElement('div');
+      frame.className = 'photo-frame';
+      frame.style.left = '50%';
+      frame.style.top = '50%';
+      frame.style.transform = `translate(-50%, -50%) rotate(${(Math.random()*10-5)}deg)`;
+      const img = document.createElement('img');
+      img.src = url;
+      frame.appendChild(img);
+      photoSection.appendChild(frame);
+
+      let isDragging = false, offsetX=0, offsetY=0;
+
+      frame.addEventListener('mousedown',(e)=>{
+        isDragging = true;
+        offsetX = e.offsetX;
+        offsetY = e.offsetY;
+        frame.style.cursor = 'grabbing';
+      });
+      document.addEventListener('mouseup',(e)=>{
+        if(isDragging){
+          isDragging=false;
+          frame.style.cursor = 'grab';
+          setTimeout(()=>{
+            frame.remove();
+            if(photoSection.children.length===0){
+              nextPage(4);
+            }
+          },2000);
+        }
+      });
+      document.addEventListener('mousemove',(e)=>{
+        if(isDragging){
+          frame.style.left = (e.pageX - offsetX)+'px';
+          frame.style.top = (e.pageY - offsetY)+'px';
+          frame.style.transform = 'rotate(0deg) scale(1.03)';
+        }
+      });
+
+      // Touch support
+      frame.addEventListener('touchstart',(e)=>{
+        isDragging=true;
+        const touch = e.touches[0];
+        const rect = frame.getBoundingClientRect();
+        offsetX = touch.clientX - rect.left;
+        offsetY = touch.clientY - rect.top;
+      });
+      document.addEventListener('touchend',(e)=>{
+        if(isDragging){
+          isDragging=false;
+          setTimeout(()=>{
+            frame.remove();
+            if(photoSection.children.length===0){
+              nextPage(4);
+            }
+          },2000);
+        }
+      });
+      document.addEventListener('touchmove',(e)=>{
+        if(isDragging){
+          const touch = e.touches[0];
+          frame.style.left = (touch.clientX - offsetX)+'px';
+          frame.style.top = (touch.clientY - offsetY)+'px';
+          frame.style.transform = 'rotate(0deg) scale(1.03)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
